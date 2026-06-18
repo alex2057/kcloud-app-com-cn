@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://alex2057.github.io/kcloud-app-com-cn/sitemap.xml

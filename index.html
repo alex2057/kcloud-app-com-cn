@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云开 · 信息卡片页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f6faf9;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1a2d3b;
+      line-height: 1.6;
+      padding: 1.5rem 1rem 3rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page {
+      max-width: 1120px;
+      width: 100%;
+    }
+
+    /* ---------- 主视觉 ---------- */
+    .hero {
+      text-align: center;
+      padding: 2.8rem 1.2rem 2.2rem;
+      background: linear-gradient(145deg, #e0f2ef 0%, #c8e6e1 100%);
+      border-radius: 40px 40px 60px 60px;
+      margin-bottom: 2.8rem;
+      box-shadow: 0 8px 20px rgba(0, 60, 50, 0.08);
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 450;
+      letter-spacing: 0.02em;
+      color: #0b3b3a;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 span {
+      display: inline-block;
+      background: #1a7a6f;
+      color: #fff;
+      font-weight: 500;
+      padding: 0.05em 0.45em;
+      border-radius: 30px;
+      font-size: 0.75em;
+      vertical-align: middle;
+      margin-left: 0.2em;
+    }
+
+    .hero .sub {
+      font-size: 1.1rem;
+      color: #1f5a53;
+      max-width: 520px;
+      margin: 0 auto 0.8rem;
+    }
+
+    .hero .visual-tag {
+      display: inline-block;
+      margin-top: 0.6rem;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(2px);
+      padding: 0.4rem 1.4rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      color: #17564d;
+      border: 1px solid rgba(50, 120, 105, 0.2);
+    }
+
+    /* ---------- 网格卡片 ---------- */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 440;
+      color: #124a42;
+      margin: 2.5rem 0 1.2rem;
+      border-left: 5px solid #289b87;
+      padding-left: 1rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.6rem;
+      margin-bottom: 2.4rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 1.8rem 1.4rem 1.6rem;
+      box-shadow: 0 4px 12px rgba(10, 70, 55, 0.06);
+      transition: all 0.2s ease;
+      border: 1px solid #d4ece5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(15, 80, 65, 0.1);
+      border-color: #7ac9b7;
+    }
+
+    .card .icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.6rem;
+      display: block;
+      line-height: 1;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #073d38;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #264e48;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card .tag {
+      align-self: flex-start;
+      margin-top: 1rem;
+      background: #e5f5f0;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      color: #0f685a;
+      letter-spacing: 0.02em;
+    }
+
+    /* 适合人群卡片 两列 */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6rem;
+      margin-bottom: 2.4rem;
+    }
+
+    .persona-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 1.8rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(10, 70, 55, 0.06);
+      border: 1px solid #d4ece5;
+      transition: 0.2s;
+    }
+
+    .persona-card:hover {
+      border-color: #7ac9b7;
+      box-shadow: 0 10px 22px rgba(15, 80, 65, 0.08);
+    }
+
+    .persona-card h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #073d38;
+      margin-bottom: 0.2rem;
+    }
+
+    .persona-card .emoji-label {
+      font-size: 1.1rem;
+      color: #19685b;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .persona-card p {
+      font-size: 0.95rem;
+      color: #2e5b53;
+    }
+
+    /* ---------- 自然链接段落 ---------- */
+    .link-sentence {
+      background: #eaf7f3;
+      border-radius: 40px;
+      padding: 1.8rem 2rem;
+      margin: 2rem 0 2.2rem;
+      font-size: 1rem;
+      border: 1px solid #b8dbd0;
+      line-height: 1.7;
+    }
+
+    .link-sentence a {
+      color: #0f735f;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 2px solid #6ebfaa;
+      padding-bottom: 1px;
+      transition: 0.15s;
+    }
+
+    .link-sentence a:hover {
+      background: #c3e6db;
+      border-bottom-color: #1a7a6f;
+      color: #064d40;
+    }
+
+    .link-sentence .highlight {
+      background: #d0f0e7;
+      padding: 0.1rem 0.4rem;
+      border-radius: 12px;
+    }
+
+    /* ---------- FAQ 摘要 ---------- */
+    .faq-mini {
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 1.6rem 1.8rem 2rem;
+      border: 1px solid #cde5de;
+      margin-top: 2.2rem;
+    }
+
+    .faq-mini h3 {
+      font-size: 1.2rem;
+      font-weight: 450;
+      color: #0a4f45;
+      margin-bottom: 0.8rem;
+    }
+
+    .faq-item {
+      display: flex;
+      gap: 0.8rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e3f1eb;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      font-weight: 500;
+      color: #11584b;
+      min-width: 100px;
+      font-size: 0.9rem;
+    }
+
+    .faq-a {
+      color: #2b5b52;
+      font-size: 0.9rem;
+    }
+
+    .faq-a a {
+      color: #0f735f;
+      text-decoration: underline wavy #92cfbe 1px;
+      text-underline-offset: 3px;
+    }
+
+    /* ---------- 响应式 ---------- */
+    @media (max-width: 640px) {
+      body {
+        padding: 0.8rem 0.8rem 2.5rem;
+      }
+
+      .hero {
+        padding: 2rem 1rem 1.6rem;
+        border-radius: 32px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero .sub {
+        font-size: 0.95rem;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .card-grid {
+        gap: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+      }
+
+      .link-sentence {
+        padding: 1.4rem 1.2rem;
+        font-size: 0.95rem;
+      }
+
+      .faq-mini {
+        padding: 1.2rem 1rem;
+      }
+
+      .faq-item {
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+
+      .faq-q {
+        min-width: auto;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+
+      .hero .visual-tag {
+        font-size: 0.7rem;
+      }
+
+      .card {
+        padding: 1.4rem 1rem;
+      }
+    }
+
+    /* 辅助 */
+    .footnote {
+      margin-top: 2.8rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #558b80;
+      border-top: 1px solid #c7e2d9;
+      padding-top: 1.4rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- 主视觉 -->
+    <header class="hero">
+      <h1>云开 <span>☁️</span></h1>
+      <p class="sub">从一处边界出发，让信息与工具自然流动</p>
+      <span class="visual-tag">轻量 · 克制 · 以用为度</span>
+    </header>
+
+    <!-- 用途卡片（网格） -->
+    <h2 class="section-title">它用来做什么</h2>
+    <div class="card-grid">
+      <div class="card">
+        <span class="icon">📂</span>
+        <h3>文件收纳基线</h3>
+        <p>为日常文档、图片和笔记提供一种结构化的摆放逻辑，不必在混乱的文件夹里反复翻找。</p>
+        <span class="tag">整理</span>
+      </div>
+      <div class="card">
+        <span class="icon">🔗</span>
+        <h3>链接与片段</h3>
+        <p>将散落的网页链接、摘录和灵感碎片收拢到一处，保持上下文清晰，不丢失线索。</p>
+        <span class="tag">串联</span>
+      </div>
+      <div class="card">
+        <span class="icon">🧩</span>
+        <h3>轻协作场景</h3>
+        <p>适合小团队或独自使用时快速同步内容，减少频繁切换工具的摩擦，保持注意力连续。</p>
+        <span class="tag">协作</span>
+      </div>
+      <div class="card">
+        <span class="icon">⚙️</span>
+        <h3>自定义流程</h3>
+        <p>通过标签、列表和视图组合，搭建贴合自己习惯的工作流，不强加固定模板。</p>
+        <span class="tag">灵活</span>
+      </div>
+    </div>
+
+    <!-- 适合人群（双列） -->
+    <h2 class="section-title">谁可能会用</h2>
+    <div class="two-col">
+      <div class="persona-card">
+        <span class="emoji-label">🧑‍💻 独立创作者</span>
+        <h3>写作者 · 设计者 · 研究者</h3>
+        <p>需要一块安静的数字角落来存放草稿、参考资料和待办事项，而不被社交提醒打扰。</p>
+      </div>
+      <div class="persona-card">
+        <span class="emoji-label">👥 小团队</span>
+        <h3>3–8 人协作单元</h3>
+        <p>日常共享任务列表、会议记录和项目资产，保持信息透明，减少重复沟通。</p>
+      </div>
+    </div>
+
+    <!-- 自然链接段落 -->
+    <div class="link-sentence">
+      <p>
+        如果你正在寻找一种不那么喧闹、更偏向整理与沉淀的工具，可以试试 <a href="https://www.kcloud-app.com.cn">云开</a>。 
+        它不承诺颠覆你的工作方式，但或许能帮你在信息碎片中找到一点秩序。你可以把它看作一个安静的后台，放那些需要被记住、被归类的细碎内容。 
+        页面本身没有复杂的 onboarding，打开即可开始搭建自己的空间。
+      </p>
+      <p style="margin-top: 0.6rem;">
+        另外，如果你对数字整理有固定习惯，也可以把它当作一个补充区域——<span class="highlight">不替代你现有的主力工具</span>，而是在旁边提供一个更轻的选项。
+      </p>
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="faq-mini">
+      <h3>一些常见问题 · 摘要</h3>
+      <div class="faq-item">
+        <span class="faq-q">和网盘有何不同？</span>
+        <span class="faq-a">更侧重内容结构而非存储容量，适合链接、笔记和轻文件，非大文件仓库。</span>
+      </div>
+      <div class="faq-item">
+        <span class="faq-q">需要注册吗？</span>
+        <span class="faq-a">首次使用时需创建一个身份，用于保存数据。无第三方登录要求。</span>
+      </div>
+      <div class="faq-item">
+        <span class="faq-q">移动端体验？</span>
+        <span class="faq-a">经过适配，手机浏览器可直接操作，卡片布局随窗口自适应。</span>
+      </div>
+      <div class="faq-item">
+        <span class="faq-q">可以导出内容吗？</span>
+        <span class="faq-a">支持常用格式导出，数据所有权清晰。具体可在 <a href="https://www.kcloud-app.com.cn">云开</a> 内查看帮助页面。</span>
+      </div>
+    </div>
+
+    <div class="footnote">
+      <span>信息卡片 · 云开 · 以简洁为尺度</span>
+    </div>
+
+  </div>
+</body>
+</html>
